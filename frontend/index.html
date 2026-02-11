@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitura de Placa</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Leitura de Placa</h2>
+
+<input type="file" accept="image/*" capture="environment" id="cameraInput">
+
+<button onclick="sendImage()">Ler Placa</button>
+
+<div id="plateContainer"></div>
+
+<button id="confirmBtn" style="display:none;" onclick="confirmPlate()">Confirmar</button>
+
+<script src="script.js"></script>
+</body>
+</html>

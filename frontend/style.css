@@ -1,0 +1,17 @@
+body {
+    font-family: Arial;
+    text-align: center;
+    padding: 20px;
+}
+
+#plateContainer {
+    margin-top: 20px;
+}
+
+.plate-box {
+    width: 40px;
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    margin: 5px;
+}
