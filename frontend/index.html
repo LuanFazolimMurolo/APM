@@ -10,23 +10,36 @@
 <body>
 
 <div class="container">
-    <h1>🚗 APM 1.0.0</h1>
+    <h1>🚗 APM 1.0.1</h1>
     <p>Leitor Inteligente de Placas</p>
-
-    <label class="upload-btn">
-        📷 Tirar foto ou escolher imagem
-        <input type="file" id="imageInput" accept="image/*" capture="environment">
-    </label>
-
-    <button id="readButton">Ler Placa</button>
-
-    <div class="loader" id="loader">
-        <div></div><div></div><div></div>
+     <div class="preview-container">
+      <img id="preview" />
     </div>
 
-    <div class="result" id="result"></div>
-</div>
+    <div class="buttons">
+      <label class="file-btn">
+        Tirar Foto📷
+        <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+      </label>
 
-<script src="script.js"></script>
+      <label class="file-btn secondary">
+        Escolher da Galeria🖼️
+        <input type="file" id="galleryInput" accept="image/*" hidden>
+      </label>
+    </div>
+
+    <button id="readBtn" class="primary-btn">Ler Placa</button>
+
+    <div id="plateContainer" class="plate-container"></div>
+
+    <div class="confirm-area">
+      <button id="confirmBtn" class="confirm-btn">Confirmar</button>
+    </div>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
+
 </html>
