@@ -13,7 +13,7 @@
   <div class="app">
 
     <header>
-      <h1>APM 1.0.3</h1>
+      <h1>APM 1.0.4</h1>
       <p>Leitura Inteligente de Placas</p>
     </header>
 
@@ -26,12 +26,12 @@
 
       <div class="actions">
         <label class="action-btn">
-          Tirar Foto
+          Tirar Foto📷
           <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
         </label>
 
         <label class="action-btn outline">
-          Galeria
+          Galeria🖼️
           <input type="file" id="galleryInput" accept="image/*" hidden>
         </label>
       </div>
@@ -51,6 +51,17 @@
       <button id="confirmBtn" class="confirm-btn">Confirmar Entrada</button>
 
       <div id="result" class="result"></div>
+
+      <!-- PLANILHA DINÂMICA -->
+      <div class="section">
+        <span class="section-title">Na Garagem🟢</span>
+        <div id="garageList"></div>
+      </div>
+
+      <div class="section">
+        <span class="section-title">Já Saíram🔴</span>
+        <div id="exitedList"></div>
+      </div>
 
     </div>
 

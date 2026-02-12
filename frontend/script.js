@@ -8,7 +8,11 @@ const confirmBtn = document.getElementById("confirmBtn");
 const result = document.getElementById("result");
 const prismaInput = document.getElementById("prismaInput");
 
+const garageList = document.getElementById("garageList");
+const exitedList = document.getElementById("exitedList");
+
 let selectedFile = null;
+let registros = [];
 
 function createEmptyPlate() {
   plateContainer.innerHTML = "";
@@ -76,6 +80,13 @@ function fillPlate(plate) {
   }
 }
 
+function formatTime(date) {
+  return date.toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+}
+
 confirmBtn.addEventListener("click", () => {
   const inputs = document.querySelectorAll(".plate-box");
   let finalPlate = "";
@@ -89,9 +100,58 @@ confirmBtn.addEventListener("click", () => {
     return;
   }
 
+  const novoRegistro = {
+    placa: finalPlate,
+    prisma: prisma,
+    status: "na_garagem",
+    entrada: new Date(),
+    saida: null
+  };
+
+  registros.push(novoRegistro);
+
+  renderRegistros();
+
   result.innerHTML = `
     ✔ Entrada Registrada<br>
     Placa: <strong>${finalPlate}</strong><br>
     Prisma: <strong>${prisma}</strong>
   `;
 });
+
+function marcarSaida(index) {
+  registros[index].status = "saiu";
+  registros[index].saida = new Date();
+  renderRegistros();
+}
+
+function renderRegistros() {
+  garageList.innerHTML = "";
+  exitedList.innerHTML = "";
+
+  registros.forEach((registro, index) => {
+    const div = document.createElement("div");
+    div.classList.add("record-row");
+
+    if (registro.status === "saiu") {
+      div.classList.add("record-exited");
+      div.innerHTML = `
+        <strong>Placa:</strong> ${registro.placa}<br>
+        <strong>Prisma:</strong> ${registro.prisma}<br>
+        <strong>Status:</strong> Saiu<br>
+        <strong>Entrada:</strong> ${formatTime(registro.entrada)}<br>
+        <strong>Saída:</strong> ${formatTime(registro.saida)}
+      `;
+      exitedList.appendChild(div);
+    } else {
+      div.innerHTML = `
+        <strong>Placa:</strong> ${registro.placa}<br>
+        <strong>Prisma:</strong> ${registro.prisma}<br>
+        <strong>Status:</strong> Na garagem<br>
+        <strong>Entrada:</strong> ${formatTime(registro.entrada)}<br>
+        <button class="exit-btn" onclick="marcarSaida(${index})">Saiu</button>
+      `;
+      garageList.appendChild(div);
+    }
+  });
+}
