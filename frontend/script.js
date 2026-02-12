@@ -1,7 +1,6 @@
 const cameraInput = document.getElementById("cameraInput");
 const galleryInput = document.getElementById("galleryInput");
 const preview = document.getElementById("preview");
-const readBtn = document.getElementById("readBtn");
 const plateContainer = document.getElementById("plateContainer");
 const confirmBtn = document.getElementById("confirmBtn");
 const result = document.getElementById("result");
@@ -45,12 +44,6 @@ function resetInputs() {
   inputs[0].focus();
 }
 
-function handleFile(file) {
-  selectedFile = file;
-  const reader = new FileReader();
-  reader.onload = e => preview.src = e.target.result;
-  reader.readAsDataURL(file);
-}
 
 cameraInput.addEventListener("change", e => {
   if (e.target.files[0]) handleFile(e.target.files[0]);
@@ -58,30 +51,6 @@ cameraInput.addEventListener("change", e => {
 
 galleryInput.addEventListener("change", e => {
   if (e.target.files[0]) handleFile(e.target.files[0]);
-});
-
-readBtn.addEventListener("click", async () => {
-  if (!selectedFile) {
-    alert("Selecione ou tire uma foto.");
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append("file", selectedFile);
-
-  const response = await fetch("https://liltingly-countrified-nan.ngrok-free.dev/read-plate", {
-    method: "POST",
-    body: formData
-  });
-
-  const data = await response.json();
-
-  if (!data.plate) {
-    alert("Placa não encontrada.");
-    return;
-  }
-
-  fillPlate(data.plate);
 });
 
 function fillPlate(plate) {
@@ -97,6 +66,40 @@ function formatTime(date) {
     minute: "2-digit"
   });
 }
+
+confirmBtn.addEventListener("click", () => {
+  const inputs = document.querySelectorAll(".plate-box");
+  let finalPlate = "";
+
+  inputs.forEach(input => finalPlate += input.value);
+
+  const prisma = prismaInput.value;
+
+  if (!finalPlate || !prisma) {
+    alert("Preencha placa e prisma.");
+    return;
+  }
+
+  const novoRegistro = {
+    id: Date.now(),
+    placa: finalPlate,
+    prisma: prisma,
+    status: "na_garagem",
+    entrada: new Date(),
+    saida: null
+  };
+
+  registros.push(novoRegistro);
+  renderRegistros();
+
+  result.innerHTML = `
+    ✔ Entrada Registrada<br>
+    Placa: <strong>${finalPlate}</strong><br>
+    Prisma: <strong>${prisma}</strong>
+  `;
+
+  resetInputs();
+});
 
 async function handleFile(file) {
   selectedFile = file;
