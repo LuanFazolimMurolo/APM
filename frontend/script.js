@@ -10,8 +10,6 @@ const prismaInput = document.getElementById("prismaInput");
 
 let selectedFile = null;
 
-/* ===== CRIAR 7 QUADRADOS FIXOS AO ABRIR ===== */
-
 function createEmptyPlate() {
   plateContainer.innerHTML = "";
   for (let i = 0; i < 7; i++) {
@@ -32,8 +30,6 @@ function createEmptyPlate() {
 
 createEmptyPlate();
 
-/* ===== PREVIEW ===== */
-
 function handleFile(file) {
   selectedFile = file;
   const reader = new FileReader();
@@ -49,11 +45,9 @@ galleryInput.addEventListener("change", e => {
   if (e.target.files[0]) handleFile(e.target.files[0]);
 });
 
-/* ===== LEITURA API ===== */
-
 readBtn.addEventListener("click", async () => {
   if (!selectedFile) {
-    alert("Selecione ou tire uma foto primeiro.");
+    alert("Selecione ou tire uma foto.");
     return;
   }
 
@@ -75,25 +69,18 @@ readBtn.addEventListener("click", async () => {
   fillPlate(data.plate);
 });
 
-/* ===== PREENCHER QUADRADOS ===== */
-
 function fillPlate(plate) {
   const inputs = document.querySelectorAll(".plate-box");
-
   for (let i = 0; i < inputs.length; i++) {
     inputs[i].value = plate[i] ? plate[i].toUpperCase() : "";
   }
 }
 
-/* ===== CONFIRMAR ===== */
-
 confirmBtn.addEventListener("click", () => {
   const inputs = document.querySelectorAll(".plate-box");
   let finalPlate = "";
 
-  inputs.forEach(input => {
-    finalPlate += input.value;
-  });
+  inputs.forEach(input => finalPlate += input.value);
 
   const prisma = prismaInput.value;
 
@@ -103,8 +90,8 @@ confirmBtn.addEventListener("click", () => {
   }
 
   result.innerHTML = `
-    ✅ <strong>Confirmado</strong><br>
-    Placa: ${finalPlate}<br>
-    Prisma: ${prisma}
+    ✔ Entrada Registrada<br>
+    Placa: <strong>${finalPlate}</strong><br>
+    Prisma: <strong>${prisma}</strong>
   `;
 });

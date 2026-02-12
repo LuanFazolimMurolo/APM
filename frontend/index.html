@@ -3,42 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>APM - Leitor de Placa</title>
+  <title>APM Estacionamento</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <div class="background"></div>
+
   <div class="app">
 
-    <h1>APM Estacionamento 1.0.2</h1>
+    <header>
+      <h1>APM 1.0.3</h1>
+      <p>Leitura Inteligente de Placas</p>
+    </header>
 
     <div class="card">
 
       <div class="preview-container">
         <img id="preview" />
+        <div class="preview-placeholder">Imagem da placa</div>
       </div>
 
-      <div class="buttons">
-        <label class="file-btn">
-          📷 Tirar Foto
+      <div class="actions">
+        <label class="action-btn">
+          Tirar Foto
           <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
         </label>
 
-        <label class="file-btn secondary">
-          🖼 Galeria
+        <label class="action-btn outline">
+          Galeria
           <input type="file" id="galleryInput" accept="image/*" hidden>
         </label>
       </div>
 
       <button id="readBtn" class="primary-btn">Ler Placa</button>
 
-      <h3>Placa</h3>
-      <div id="plateContainer" class="plate-container"></div>
+      <div class="section">
+        <span class="section-title">Placa</span>
+        <div id="plateContainer" class="plate-container"></div>
+      </div>
 
-      <h3>Número do Prisma</h3>
-      <input type="number" id="prismaInput" class="prisma-input" placeholder="Digite o número do prisma">
+      <div class="section">
+        <span class="section-title">Prisma</span>
+        <input type="number" id="prismaInput" class="prisma-input" placeholder="Número do Prisma">
+      </div>
 
-      <button id="confirmBtn" class="confirm-btn">Confirmar</button>
+      <button id="confirmBtn" class="confirm-btn">Confirmar Entrada</button>
 
       <div id="result" class="result"></div>
 
