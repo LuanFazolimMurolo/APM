@@ -19,7 +19,10 @@ body {
   height: 100%;
   background: radial-gradient(circle at 30% 30%, #1e293b, #0f172a);
   z-index: -1;
-  background-image: url("luiz.jpeg");
+  background-image: url("luiz.jpeg") ;
+      background-repeat: no-repeat; /* impede repetição */
+      background-size: cover;       /* ajusta para cobrir toda a tela */
+      background-position: center;
 }
 
 .app {
