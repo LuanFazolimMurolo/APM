@@ -98,40 +98,38 @@ function formatTime(date) {
   });
 }
 
-confirmBtn.addEventListener("click", () => {
-  const inputs = document.querySelectorAll(".plate-box");
-  let finalPlate = "";
+async function handleFile(file) {
+  selectedFile = file;
 
-  inputs.forEach(input => finalPlate += input.value);
+  const reader = new FileReader();
+  reader.onload = e => preview.src = e.target.result;
+  reader.readAsDataURL(file);
 
-  const prisma = prismaInput.value;
+  // 🔥 Leitura automática da placa
+  const formData = new FormData();
+  formData.append("file", file);
 
-  if (!finalPlate || !prisma) {
-    alert("Preencha placa e prisma.");
-    return;
+  try {
+    const response = await fetch("https://liltingly-countrified-nan.ngrok-free.dev/read-plate", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (!data.plate) {
+      alert("Placa não encontrada.");
+      return;
+    }
+
+    fillPlate(data.plate);
+
+  } catch (error) {
+    console.error(error);
+    alert("Erro ao conectar com o servidor.");
   }
+}
 
-    const novoRegistro = {
-    id: Date.now(), // ID único
-    placa: finalPlate,
-    prisma: prisma,
-    status: "na_garagem",
-    entrada: new Date(),
-    saida: null
-    };
-
-
-  registros.push(novoRegistro);
-  renderRegistros();
-
-  result.innerHTML = `
-    ✔ Entrada Registrada<br>
-    Placa: <strong>${finalPlate}</strong><br>
-    Prisma: <strong>${prisma}</strong>
-  `;
-
-  resetInputs(); // 🔥 RESET AUTOMÁTICO
-});
 
 function marcarSaida(id) {
   const registro = registros.find(reg => reg.id === id);
