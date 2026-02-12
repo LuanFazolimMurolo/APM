@@ -1,45 +1,51 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APM - Leitor de Placas</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APM - Leitor de Placa</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="container">
-    <h1>🚗 APM 1.0.1</h1>
-    <p>Leitor Inteligente de Placas</p>
-     <div class="preview-container">
-      <img id="preview" />
-    </div>
+  <div class="app">
 
-    <div class="buttons">
-      <label class="file-btn">
-        Tirar Foto📷
-        <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
-      </label>
+    <h1>APM Estacionamento 1.0.2</h1>
 
-      <label class="file-btn secondary">
-        Escolher da Galeria🖼️
-        <input type="file" id="galleryInput" accept="image/*" hidden>
-      </label>
-    </div>
+    <div class="card">
 
-    <button id="readBtn" class="primary-btn">Ler Placa</button>
+      <div class="preview-container">
+        <img id="preview" />
+      </div>
 
-    <div id="plateContainer" class="plate-container"></div>
+      <div class="buttons">
+        <label class="file-btn">
+          📷 Tirar Foto
+          <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+        </label>
 
-    <div class="confirm-area">
+        <label class="file-btn secondary">
+          🖼 Galeria
+          <input type="file" id="galleryInput" accept="image/*" hidden>
+        </label>
+      </div>
+
+      <button id="readBtn" class="primary-btn">Ler Placa</button>
+
+      <h3>Placa</h3>
+      <div id="plateContainer" class="plate-container"></div>
+
+      <h3>Número do Prisma</h3>
+      <input type="number" id="prismaInput" class="prisma-input" placeholder="Digite o número do prisma">
+
       <button id="confirmBtn" class="confirm-btn">Confirmar</button>
+
+      <div id="result" class="result"></div>
+
     </div>
 
-    <div id="result" class="result"></div>
   </div>
 
   <script src="script.js"></script>
 </body>
-
 </html>
