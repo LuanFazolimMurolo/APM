@@ -1,21 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leitura de Placa</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APM - Leitor de Placas</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h2>Leitura de Placa</h2>
+<div class="container">
+    <h1>🚗 APM 1.0.0</h1>
+    <p>Leitor Inteligente de Placas</p>
 
-<input type="file" accept="image/*" capture="environment" id="cameraInput">
+    <label class="upload-btn">
+        📷 Tirar foto ou escolher imagem
+        <input type="file" id="imageInput" accept="image/*" capture="environment">
+    </label>
 
-<button onclick="sendImage()">Ler Placa</button>
+    <button id="readButton">Ler Placa</button>
 
-<div id="plateContainer"></div>
+    <div class="loader" id="loader">
+        <div></div><div></div><div></div>
+    </div>
 
-<button id="confirmBtn" style="display:none;" onclick="confirmPlate()">Confirmar</button>
+    <div class="result" id="result"></div>
+</div>
 
 <script src="script.js"></script>
 </body>

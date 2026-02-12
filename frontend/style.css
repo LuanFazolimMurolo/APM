@@ -1,17 +1,101 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
-    font-family: Arial;
-    text-align: center;
-    padding: 20px;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
 }
 
-#plateContainer {
+.container {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    width: 95%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+h1 {
+    margin-bottom: 10px;
+    font-size: 26px;
+}
+
+p {
+    margin-bottom: 25px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.upload-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.upload-btn:hover {
+    transform: scale(1.05);
+}
+
+button {
+    margin-top: 15px;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background: #28a745;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #218838;
+}
+
+.result {
     margin-top: 20px;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 3px;
 }
 
-.plate-box {
-    width: 40px;
-    height: 50px;
-    font-size: 24px;
-    text-align: center;
-    margin: 5px;
+.loader {
+    margin-top: 15px;
+    display: none;
+}
+
+.loader div {
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    display: inline-block;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loader div:nth-child(1) { animation-delay: -0.32s; }
+.loader div:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
 }

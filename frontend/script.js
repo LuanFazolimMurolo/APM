@@ -1,54 +1,42 @@
-let currentPlate = "";
+
+const button = document.getElementById("readButton");
+
+button.addEventListener("click", sendImage);
 
 async function sendImage() {
-    const input = document.getElementById("cameraInput");
+
+    const input = document.getElementById("imageInput");
     const file = input.files[0];
 
     if (!file) {
-        alert("Selecione uma imagem");
+        alert("Selecione uma imagem primeiro.");
         return;
     }
 
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch("https://liltingly-countrified-nan.ngrok-free.dev/read-plate",{
-        method: "POST",
-        body: formData
-    });
+    document.getElementById("loader").style.display = "block";
+    document.getElementById("result").innerText = "";
 
-    const data = await response.json();
+    try {
+        const response = await fetch("https://liltingly-countrified-nan.ngrok-free.dev/read-plate", {
+            method: "POST",
+            body: formData
+        });
 
-    if (data.plate) {
-        currentPlate = data.plate;
-        renderPlateBoxes(currentPlate);
-    } else {
-        alert("Placa não detectada");
+        const data = await response.json();
+
+        document.getElementById("loader").style.display = "none";
+
+        if (data.plate) {
+            document.getElementById("result").innerText = data.plate;
+        } else {
+            document.getElementById("result").innerText = "Placa não detectada";
+        }
+
+    } catch (error) {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("result").innerText = "Erro ao conectar ao servidor";
     }
-}
-
-function renderPlateBoxes(plate) {
-    const container = document.getElementById("plateContainer");
-    container.innerHTML = "";
-
-    plate.split("").forEach((char, index) => {
-        const input = document.createElement("input");
-        input.value = char;
-        input.maxLength = 1;
-        input.classList.add("plate-box");
-        input.oninput = () => updatePlate();
-        container.appendChild(input);
-    });
-
-    document.getElementById("confirmBtn").style.display = "block";
-}
-
-function updatePlate() {
-    const inputs = document.querySelectorAll(".plate-box");
-    currentPlate = Array.from(inputs).map(i => i.value.toUpperCase()).join("");
-}
-
-function confirmPlate() {
-    alert("Placa confirmada: " + currentPlate);
-    console.log("Placa final:", currentPlate);
 }
