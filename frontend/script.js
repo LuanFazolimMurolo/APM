@@ -1,4 +1,3 @@
-/*   "https://liltingly-countrified-nan.ngrok-free.dev/read-plate"   */
 const cameraInput = document.getElementById("cameraInput");
 const galleryInput = document.getElementById("galleryInput");
 const preview = document.getElementById("preview");
@@ -10,6 +9,9 @@ const prismaInput = document.getElementById("prismaInput");
 
 const garageList = document.getElementById("garageList");
 const exitedList = document.getElementById("exitedList");
+
+const searchGarage = document.getElementById("searchGarage");
+const searchExited = document.getElementById("searchExited");
 
 let selectedFile = null;
 let registros = [];
@@ -109,7 +111,6 @@ confirmBtn.addEventListener("click", () => {
   };
 
   registros.push(novoRegistro);
-
   renderRegistros();
 
   result.innerHTML = `
@@ -125,25 +126,25 @@ function marcarSaida(index) {
   renderRegistros();
 }
 
+searchGarage.addEventListener("input", renderRegistros);
+searchExited.addEventListener("input", renderRegistros);
+
 function renderRegistros() {
   garageList.innerHTML = "";
   exitedList.innerHTML = "";
 
-  registros.forEach((registro, index) => {
-    const div = document.createElement("div");
-    div.classList.add("record-row");
+  const filtroGarage = searchGarage.value.toUpperCase();
+  const filtroExited = searchExited.value.toUpperCase();
 
-    if (registro.status === "saiu") {
-      div.classList.add("record-exited");
-      div.innerHTML = `
-        <strong>Placa:</strong> ${registro.placa}<br>
-        <strong>Prisma:</strong> ${registro.prisma}<br>
-        <strong>Status:</strong> Saiu<br>
-        <strong>Entrada:</strong> ${formatTime(registro.entrada)}<br>
-        <strong>Saída:</strong> ${formatTime(registro.saida)}
-      `;
-      exitedList.appendChild(div);
-    } else {
+  registros.forEach((registro, index) => {
+
+    if (registro.status === "na_garagem") {
+
+      if (!registro.placa.includes(filtroGarage)) return;
+
+      const div = document.createElement("div");
+      div.classList.add("record-row");
+
       div.innerHTML = `
         <strong>Placa:</strong> ${registro.placa}<br>
         <strong>Prisma:</strong> ${registro.prisma}<br>
@@ -151,7 +152,25 @@ function renderRegistros() {
         <strong>Entrada:</strong> ${formatTime(registro.entrada)}<br>
         <button class="exit-btn" onclick="marcarSaida(${index})">Saiu</button>
       `;
+
       garageList.appendChild(div);
+
+    } else {
+
+      if (!registro.placa.includes(filtroExited)) return;
+
+      const div = document.createElement("div");
+      div.classList.add("record-row", "record-exited");
+
+      div.innerHTML = `
+        <strong>Placa:</strong> ${registro.placa}<br>
+        <strong>Prisma:</strong> ${registro.prisma}<br>
+        <strong>Status:</strong> Saiu<br>
+        <strong>Entrada:</strong> ${formatTime(registro.entrada)}<br>
+        <strong>Saída:</strong> ${formatTime(registro.saida)}
+      `;
+
+      exitedList.appendChild(div);
     }
   });
 }
