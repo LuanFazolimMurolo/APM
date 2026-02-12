@@ -161,46 +161,65 @@ function renderRegistros() {
 
   registros.forEach((registro) => {
 
+    if (registro.status === "na_garagem" && 
+        !registro.placa.includes(filtroGarage)) return;
+
+    if (registro.status === "saiu" && 
+        !registro.placa.includes(filtroExited)) return;
+
     const box = document.createElement("div");
     box.classList.add("record-row");
 
-    const deleteBtn = document.createElement("span");
-    deleteBtn.innerHTML = "✖";
-    deleteBtn.classList.add("delete-btn");
-    deleteBtn.onclick = () => excluirRegistro(registro.id);
+    if (registro.status === "saiu") {
+      box.classList.add("record-exited");
+    }
 
+    // BOTÃO EXCLUIR
+    const deleteBtn = document.createElement("span");
+    deleteBtn.textContent = "✖";
+    deleteBtn.classList.add("delete-btn");
+    deleteBtn.addEventListener("click", () => {
+      excluirRegistro(registro.id);
+    });
 
     box.appendChild(deleteBtn);
 
+    // CONTEÚDO
+    const content = document.createElement("div");
+    content.innerHTML = `
+      <strong>Placa:</strong> ${registro.placa}<br>
+      <strong>Prisma:</strong> ${registro.prisma}<br>
+      <strong>Status:</strong> ${
+        registro.status === "na_garagem"
+          ? "Na garagem"
+          : '<span style="color:#ef4444;">Saiu</span>'
+      }<br>
+      <strong>Entrada:</strong> ${formatTime(registro.entrada)}<br>
+      ${
+        registro.status === "na_garagem"
+          ? ""
+          : `<strong>Saída:</strong> ${formatTime(registro.saida)}`
+      }
+    `;
+
+    box.appendChild(content);
+
+    // BOTÃO SAÍDA
     if (registro.status === "na_garagem") {
+      const exitBtn = document.createElement("button");
+      exitBtn.textContent = "Saiu";
+      exitBtn.classList.add("exit-btn");
+      exitBtn.addEventListener("click", () => {
+        marcarSaida(registro.id);
+      });
+      box.appendChild(exitBtn);
+    }
 
-      if (!registro.placa.includes(filtroGarage)) return;
-
-      box.innerHTML += `
-        <strong>Placa:</strong> ${registro.placa}<br>
-        <strong>Prisma:</strong> ${registro.prisma}<br>
-        <strong>Status:</strong> Na garagem<br>
-        <strong>Entrada:</strong> ${formatTime(registro.entrada)}<br>
-        <button class="exit-btn" onclick="marcarSaida(${registro.id})">Saiu</button>
-      `;
-
+    if (registro.status === "na_garagem") {
       garageList.appendChild(box);
-
     } else {
-
-      if (!registro.placa.includes(filtroExited)) return;
-
-      box.classList.add("record-exited");
-
-      box.innerHTML += `
-        <strong>Placa:</strong> ${registro.placa}<br>
-        <strong>Prisma:</strong> ${registro.prisma}<br>
-        <strong>Status:</strong> <span style="color:#ef4444;">Saiu</span><br>
-        <strong>Entrada:</strong> ${formatTime(registro.entrada)}<br>
-        <strong>Saída:</strong> ${formatTime(registro.saida)}
-      `;
-
       exitedList.appendChild(box);
     }
   });
 }
+
