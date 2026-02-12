@@ -36,6 +36,15 @@ function createEmptyPlate() {
 
 createEmptyPlate();
 
+function resetInputs() {
+  const inputs = document.querySelectorAll(".plate-box");
+  inputs.forEach(input => input.value = "");
+  prismaInput.value = "";
+  preview.src = "";
+  selectedFile = null;
+  inputs[0].focus();
+}
+
 function handleFile(file) {
   selectedFile = file;
   const reader = new FileReader();
@@ -102,13 +111,15 @@ confirmBtn.addEventListener("click", () => {
     return;
   }
 
-  const novoRegistro = {
+    const novoRegistro = {
+    id: Date.now(), // ID único
     placa: finalPlate,
     prisma: prisma,
     status: "na_garagem",
     entrada: new Date(),
     saida: null
-  };
+    };
+
 
   registros.push(novoRegistro);
   renderRegistros();
@@ -118,13 +129,25 @@ confirmBtn.addEventListener("click", () => {
     Placa: <strong>${finalPlate}</strong><br>
     Prisma: <strong>${prisma}</strong>
   `;
+
+  resetInputs(); // 🔥 RESET AUTOMÁTICO
 });
 
-function marcarSaida(index) {
-  registros[index].status = "saiu";
-  registros[index].saida = new Date();
+function marcarSaida(id) {
+  const registro = registros.find(reg => reg.id === id);
+  if (registro) {
+    registro.status = "saiu";
+    registro.saida = new Date();
+  }
   renderRegistros();
 }
+
+
+function excluirRegistro(id) {
+  registros = registros.filter(reg => reg.id !== id);
+  renderRegistros();
+}
+
 
 searchGarage.addEventListener("input", renderRegistros);
 searchExited.addEventListener("input", renderRegistros);
@@ -136,41 +159,48 @@ function renderRegistros() {
   const filtroGarage = searchGarage.value.toUpperCase();
   const filtroExited = searchExited.value.toUpperCase();
 
-  registros.forEach((registro, index) => {
+  registros.forEach((registro) => {
+
+    const box = document.createElement("div");
+    box.classList.add("record-row");
+
+    const deleteBtn = document.createElement("span");
+    deleteBtn.innerHTML = "✖";
+    deleteBtn.classList.add("delete-btn");
+    deleteBtn.onclick = () => excluirRegistro(registro.id);
+
+
+    box.appendChild(deleteBtn);
 
     if (registro.status === "na_garagem") {
 
       if (!registro.placa.includes(filtroGarage)) return;
 
-      const div = document.createElement("div");
-      div.classList.add("record-row");
-
-      div.innerHTML = `
+      box.innerHTML += `
         <strong>Placa:</strong> ${registro.placa}<br>
         <strong>Prisma:</strong> ${registro.prisma}<br>
         <strong>Status:</strong> Na garagem<br>
         <strong>Entrada:</strong> ${formatTime(registro.entrada)}<br>
-        <button class="exit-btn" onclick="marcarSaida(${index})">Saiu</button>
+        <button class="exit-btn" onclick="marcarSaida(${registro.id})">Saiu</button>
       `;
 
-      garageList.appendChild(div);
+      garageList.appendChild(box);
 
     } else {
 
       if (!registro.placa.includes(filtroExited)) return;
 
-      const div = document.createElement("div");
-      div.classList.add("record-row", "record-exited");
+      box.classList.add("record-exited");
 
-      div.innerHTML = `
+      box.innerHTML += `
         <strong>Placa:</strong> ${registro.placa}<br>
         <strong>Prisma:</strong> ${registro.prisma}<br>
-        <strong>Status:</strong> Saiu<br>
+        <strong>Status:</strong> <span style="color:#ef4444;">Saiu</span><br>
         <strong>Entrada:</strong> ${formatTime(registro.entrada)}<br>
         <strong>Saída:</strong> ${formatTime(registro.saida)}
       `;
 
-      exitedList.appendChild(div);
+      exitedList.appendChild(box);
     }
   });
 }

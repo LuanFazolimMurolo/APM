@@ -230,3 +230,40 @@ header p {
   box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
 }
 
+.record-row {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  background: #1e293b;
+  font-size: 13px;
+  position: relative;
+}
+
+.record-exited {
+  border-left: 3px solid #ef4444;
+}
+
+.exit-btn {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 8px;
+  background: #ef4444;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #94a3b8;
+  transition: 0.2s ease;
+}
+
+.delete-btn:hover {
+  color: #ef4444;
+}
