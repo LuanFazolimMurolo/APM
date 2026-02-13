@@ -199,6 +199,7 @@ excluirTudoBtn.addEventListener("click", async () => {
 
 
 
+
   function aplicarFiltro() {
     let filtrados = [...registros];
 
