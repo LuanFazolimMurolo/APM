@@ -149,17 +149,29 @@ function renderHistorico(turnos) {
 
 
 function renderTabelaHistorico(registros) {
-  historyScreen.innerHTML = `
-  <div style="margin-bottom:10px; display:flex; gap:8px; align-items:center;">
-    <input type="date" id="filtroData">
-    <input type="text" id="filtroPlaca" placeholder="Buscar por placa">
-    <button id="limparFiltro">Limpar</button>
-    <button id="excluirTudoBtn" style="background:#ef4444;color:white;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;">
-      🗑 Excluir Tudo
-    </button>
+historyScreen.innerHTML = `
+  <div class="history-toolbar">
+
+    <div class="history-filters">
+      <input type="date" id="filtroData" class="history-input">
+      <input type="text" id="filtroPlaca" placeholder="Buscar placa" class="history-input">
+    </div>
+
+    <div class="history-actions">
+      <button id="limparFiltro" class="history-btn secondary">
+        Limpar
+      </button>
+
+      <button id="excluirTudoBtn" class="history-btn danger">
+        🗑
+      </button>
+    </div>
+
   </div>
+
   <div id="tabelaContainer"></div>
 `;
+
 
 
   const tabelaContainer = document.getElementById("tabelaContainer");

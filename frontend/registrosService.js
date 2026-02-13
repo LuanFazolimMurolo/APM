@@ -77,13 +77,18 @@ export async function buscarTodosRegistros() {
   return data;
 }
 export async function excluirTodosRegistros() {
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("registros")
     .delete()
-    .neq("id", 0); // deleta todos
+    .gt("id", 0); // deleta tudo que tiver id maior que 0
 
   if (error) {
     console.error("Erro ao excluir todos registros:", error);
+    alert("Erro ao excluir histórico.");
+    return false;
   }
+
+  return true;
 }
+
 

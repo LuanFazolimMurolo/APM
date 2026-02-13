@@ -342,3 +342,60 @@ header p {
   font-weight: 600;
   cursor: pointer;
 }
+/* ===== HISTÓRICO MELHORADO ===== */
+
+.history-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.history-filters {
+  display: flex;
+  gap: 8px;
+}
+
+.history-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  background: #1e293b;
+  color: white;
+  font-size: 13px;
+}
+
+.history-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.history-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.history-btn.secondary {
+  background: #334155;
+  color: white;
+}
+
+.history-btn.secondary:hover {
+  background: #475569;
+}
+
+.history-btn.danger {
+  background: #ef4444;
+  color: white;
+}
+
+.history-btn.danger:hover {
+  background: #dc2626;
+}
