@@ -13,6 +13,58 @@ const searchGarage = document.getElementById("searchGarage");
 const searchExited = document.getElementById("searchExited");
 
 let selectedFile = null;
+cameraInput.addEventListener("change", handleFile);
+galleryInput.addEventListener("change", handleFile);
+
+async function handleFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  selectedFile = file;
+
+  // Mostrar preview
+  const reader = new FileReader();
+  reader.onload = () => {
+    preview.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+
+  // 🔥 Enviar para o backend
+  await enviarParaBackend(file);
+}
+async function enviarParaBackend(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const response = await fetch("https://apm-4pa7.onrender.com/read-plate", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (data.plate) {
+      preencherPlaca(data.plate);
+    } else {
+      alert("Placa não detectada.");
+    }
+
+  } catch (error) {
+    console.error("Erro ao enviar imagem:", error);
+    alert("Erro ao conectar com o servidor.");
+  }
+}
+function preencherPlaca(placa) {
+  const inputs = document.querySelectorAll(".plate-box");
+
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].value = placa[i] || "";
+  }
+}
+
+
+
 
 function createEmptyPlate() {
   plateContainer.innerHTML = "";
