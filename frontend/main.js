@@ -10,7 +10,8 @@ import {
   buscarRegistrosDoTurno,
   marcarSaidaRegistro,
   excluirRegistroBanco,
-  buscarTodosRegistros
+  buscarTodosRegistros,
+  excluirTodosRegistros
 } from "./registrosService.js";
 
 let turnoAtual = null;
@@ -149,18 +150,37 @@ function renderHistorico(turnos) {
 
 function renderTabelaHistorico(registros) {
   historyScreen.innerHTML = `
-    <div style="margin-bottom:10px;">
-      <input type="date" id="filtroData">
-      <input type="text" id="filtroPlaca" placeholder="Buscar por placa">
-      <button id="limparFiltro">Limpar</button>
-    </div>
-    <div id="tabelaContainer"></div>
-  `;
+  <div style="margin-bottom:10px; display:flex; gap:8px; align-items:center;">
+    <input type="date" id="filtroData">
+    <input type="text" id="filtroPlaca" placeholder="Buscar por placa">
+    <button id="limparFiltro">Limpar</button>
+    <button id="excluirTudoBtn" style="background:#ef4444;color:white;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;">
+      🗑 Excluir Tudo
+    </button>
+  </div>
+  <div id="tabelaContainer"></div>
+`;
+
 
   const tabelaContainer = document.getElementById("tabelaContainer");
   const filtroData = document.getElementById("filtroData");
   const filtroPlaca = document.getElementById("filtroPlaca");
   const limparFiltro = document.getElementById("limparFiltro");
+  const excluirTudoBtn = document.getElementById("excluirTudoBtn");
+
+excluirTudoBtn.addEventListener("click", async () => {
+  const confirmar = confirm("Tem certeza que deseja excluir TODO o histórico?");
+
+  if (!confirmar) return;
+
+  await excluirTodosRegistros();
+
+  alert("Histórico apagado com sucesso!");
+
+  const registrosAtualizados = await buscarTodosRegistros();
+  renderTabela(registrosAtualizados);
+});
+
 
   function aplicarFiltro() {
     let filtrados = [...registros];

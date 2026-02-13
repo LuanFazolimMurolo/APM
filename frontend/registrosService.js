@@ -76,3 +76,14 @@ export async function buscarTodosRegistros() {
 
   return data;
 }
+export async function excluirTodosRegistros() {
+  const { error } = await supabase
+    .from("registros")
+    .delete()
+    .neq("id", 0); // deleta todos
+
+  if (error) {
+    console.error("Erro ao excluir todos registros:", error);
+  }
+}
+
