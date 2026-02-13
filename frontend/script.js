@@ -13,7 +13,6 @@ const searchGarage = document.getElementById("searchGarage");
 const searchExited = document.getElementById("searchExited");
 
 let selectedFile = null;
-let registros = [];
 
 function createEmptyPlate() {
   plateContainer.innerHTML = "";
@@ -43,31 +42,7 @@ function resetInputs() {
   selectedFile = null;
   inputs[0].focus();
 }
-
-
-cameraInput.addEventListener("change", e => {
-  if (e.target.files[0]) handleFile(e.target.files[0]);
-});
-
-galleryInput.addEventListener("change", e => {
-  if (e.target.files[0]) handleFile(e.target.files[0]);
-});
-
-function fillPlate(plate) {
-  const inputs = document.querySelectorAll(".plate-box");
-  for (let i = 0; i < inputs.length; i++) {
-    inputs[i].value = plate[i] ? plate[i].toUpperCase() : "";
-  }
-}
-
-function formatTime(date) {
-  return date.toLocaleTimeString("pt-BR", {
-    hour: "2-digit",
-    minute: "2-digit"
-  });
-}
-
-confirmBtn.addEventListener("click", () => {
+confirmBtn.addEventListener("click", async () => {
   const inputs = document.querySelectorAll(".plate-box");
   let finalPlate = "";
 
@@ -75,22 +50,19 @@ confirmBtn.addEventListener("click", () => {
 
   const prisma = prismaInput.value;
 
-  if (!finalPlate || !prisma) {
+  if (!finalPlate || finalPlate.length < 7 || !prisma) {
     alert("Preencha placa e prisma.");
     return;
   }
 
-  const novoRegistro = {
-    id: Date.now(),
-    placa: finalPlate,
-    prisma: prisma,
-    status: "na_garagem",
-    entrada: new Date(),
-    saida: null
-  };
+  const turno = window.sistema.getTurno();
+  if (!turno) {
+    alert("Nenhum turno ativo.");
+    return;
+  }
 
-  registros.push(novoRegistro);
-  renderRegistros();
+  await window.sistema.criarRegistro(turno.id, finalPlate, prisma);
+  await window.sistema.carregarRegistros();
 
   result.innerHTML = `
     ✔ Entrada Registrada<br>
@@ -101,59 +73,21 @@ confirmBtn.addEventListener("click", () => {
   resetInputs();
 });
 
-async function handleFile(file) {
-  selectedFile = file;
 
-  const reader = new FileReader();
-  reader.onload = e => preview.src = e.target.result;
-  reader.readAsDataURL(file);
-
-  // 🔥 Leitura automática da placa
-  const formData = new FormData();
-  formData.append("file", file);
-
-  try {
-    const response = await fetch("https://liltingly-countrified-nan.ngrok-free.dev/read-plate", {
-      method: "POST",
-      body: formData
-    });
-
-    const data = await response.json();
-
-    if (!data.plate) {
-      alert("Placa não encontrada.");
-      return;
-    }
-
-    fillPlate(data.plate);
-
-  } catch (error) {
-    console.error(error);
-    alert("Erro ao conectar com o servidor.");
-  }
+async function marcarSaida(id) {
+  await window.sistema.marcarSaidaRegistro(id);
+  await window.sistema.carregarRegistros();
 }
 
-
-function marcarSaida(id) {
-  const registro = registros.find(reg => reg.id === id);
-  if (registro) {
-    registro.status = "saiu";
-    registro.saida = new Date();
-  }
-  renderRegistros();
+async function excluirRegistro(id) {
+  await window.sistema.excluirRegistroBanco(id);
+  await window.sistema.carregarRegistros();
 }
 
+searchGarage.addEventListener("input", () => window.sistema.carregarRegistros());
+searchExited.addEventListener("input", () => window.sistema.carregarRegistros());
 
-function excluirRegistro(id) {
-  registros = registros.filter(reg => reg.id !== id);
-  renderRegistros();
-}
-
-
-searchGarage.addEventListener("input", renderRegistros);
-searchExited.addEventListener("input", renderRegistros);
-
-function renderRegistros() {
+window.renderRegistrosDoBanco = function(registros) {
   garageList.innerHTML = "";
   exitedList.innerHTML = "";
 
@@ -175,7 +109,6 @@ function renderRegistros() {
       box.classList.add("record-exited");
     }
 
-    // BOTÃO EXCLUIR
     const deleteBtn = document.createElement("span");
     deleteBtn.textContent = "✖";
     deleteBtn.classList.add("delete-btn");
@@ -185,7 +118,6 @@ function renderRegistros() {
 
     box.appendChild(deleteBtn);
 
-    // CONTEÚDO
     const content = document.createElement("div");
     content.innerHTML = `
       <strong>Placa:</strong> ${registro.placa}<br>
@@ -195,17 +127,16 @@ function renderRegistros() {
           ? "Na garagem"
           : '<span style="color:#ef4444;">Saiu</span>'
       }<br>
-      <strong>Entrada:</strong> ${formatTime(registro.entrada)}<br>
+      <strong>Entrada:</strong> ${new Date(registro.entrada).toLocaleTimeString("pt-BR", {hour:"2-digit", minute:"2-digit"})}<br>
       ${
-        registro.status === "na_garagem"
-          ? ""
-          : `<strong>Saída:</strong> ${formatTime(registro.saida)}`
+        registro.status === "saiu"
+          ? `<strong>Saída:</strong> ${new Date(registro.saida).toLocaleTimeString("pt-BR", {hour:"2-digit", minute:"2-digit"})}`
+          : ""
       }
     `;
 
     box.appendChild(content);
 
-    // BOTÃO SAÍDA
     if (registro.status === "na_garagem") {
       const exitBtn = document.createElement("button");
       exitBtn.textContent = "Saiu";
@@ -222,5 +153,7 @@ function renderRegistros() {
       exitedList.appendChild(box);
     }
   });
-}
+};
+
+
 

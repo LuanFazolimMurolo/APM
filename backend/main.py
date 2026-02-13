@@ -15,7 +15,7 @@ app.add_middleware(
 )
 
 # Pega a chave do ambiente (mais seguro)
-PLATE_API_KEY = "6f584d0144502c2d0da412fe4273aa848c80163f"
+PLATE_API_KEY = os.getenv("PLATE_API_KEY")
 
 @app.post("/read-plate")
 async def read_plate(file: UploadFile = File(...)):

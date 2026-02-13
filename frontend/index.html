@@ -5,72 +5,107 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>APM Estacionamento</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
 
   <div class="background"></div>
 
   <div class="app">
 
-    <header>
-      <h1>APM 1.0.5</h1>
-      <p>Leitura Inteligente de Placas</p>
-    </header>
-
     <div class="card">
 
-      <div class="preview-container">
-        <img id="preview" />
-        <div class="preview-placeholder">Imagem da placa</div>
+      <!-- HEADER DINÂMICO -->
+      <div class="page-header">
+        <button id="backBtn" class="back-btn">←</button>
+        <div>
+          <h2 id="pageTitle">APM 1.0.5</h2>
+          <p id="pageSubtitle">Leitura Inteligente de Placas</p>
+        </div>
       </div>
 
-      <div class="actions">
-        <label class="action-btn">
-          Tirar Foto📷
-          <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
-        </label>
+      <!-- ===== TELA INICIAL ===== -->
+      <div id="homeScreen">
+        <button id="startShiftBtn" class="btn-success">
+          Iniciar Turno
+        </button>
 
-        <label class="action-btn outline">
-          Galeria🖼️
-          <input type="file" id="galleryInput" accept="image/*" hidden>
-        </label>
+        <button id="currentParkingBtn" class="btn-parking" style="margin-top:10px;">
+          Estacionamento Atual
+        </button>
+
+        <button id="historyBtn" class="btn-history" style="margin-top:10px;">
+          Histórico
+        </button>
+
       </div>
 
+      <!-- ===== TELA ESTACIONAMENTO ATUAL ===== -->
+      <div id="parkingScreen" style="display:none;">
 
+        <div class="preview-container">
+          <img id="preview" />
+          <div class="preview-placeholder">Imagem da placa</div>
+        </div>
 
-      <div class="section">
-        <span class="section-title">Placa</span>
-        <div id="plateContainer" class="plate-container"></div>
+        <div class="actions">
+          <label class="action-btn">
+            Tirar Foto📷
+            <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+          </label>
+
+          <label class="action-btn outline">
+            Galeria🖼️
+            <input type="file" id="galleryInput" accept="image/*" hidden>
+          </label>
+        </div>
+
+        <div class="section">
+          <span class="section-title">Placa</span>
+          <div id="plateContainer" class="plate-container"></div>
+        </div>
+
+        <div class="section">
+          <span class="section-title">Prisma</span>
+          <input type="number" id="prismaInput" class="prisma-input" placeholder="Número do Prisma">
+        </div>
+
+        <button id="confirmBtn" class="confirm-btn">
+          Confirmar Entrada
+        </button>
+
+        <div id="result" class="result"></div>
+
+        <!-- LISTAS FICAM AQUI DENTRO -->
+        <div class="section">
+          <span class="section-title">Na Garagem🟢</span>
+          <input type="text" id="searchGarage" class="search-input" placeholder="Buscar placa...">
+          <div id="garageList"></div>
+        </div>
+
+        <div class="section">
+          <span class="section-title">Já Saíram❌</span>
+          <input type="text" id="searchExited" class="search-input" placeholder="Buscar placa...">
+          <div id="exitedList"></div>
+        </div>
+
       </div>
 
-      <div class="section">
-        <span class="section-title">Prisma</span>
-        <input type="number" id="prismaInput" class="prisma-input" placeholder="Número do Prisma">
+      <!-- ===== TELA HISTÓRICO ===== -->
+      <div id="historyScreen" style="display:none;">
+        <div class="section">
+          <span class="section-title">Histórico de Movimentações</span>
+          <div id="historyList"></div>
+        </div>
       </div>
-
-      <button id="confirmBtn" class="confirm-btn">Confirmar Entrada</button>
-
-      <div id="result" class="result"></div>
-
-      <!-- PLANILHA DINÂMICA -->
-
-    <div class="section">
-        <span class="section-title">Na Garagem🟢</span>
-        <input type="text" id="searchGarage" class="search-input" placeholder="Buscar placa...">
-        <div id="garageList"></div>
-    </div>
-
-    <div class="section">
-        <span class="section-title">Já Saíram❌</span>
-        <input type="text" id="searchExited" class="search-input" placeholder="Buscar placa...">
-        <div id="exitedList"></div>
-    </div>
-
 
     </div>
 
   </div>
 
-  <script src="script.js"></script>
+  <script type="module" src="main.js"></script>
+  <script type="module" src="script.js"></script>
+
 </body>
 </html>
