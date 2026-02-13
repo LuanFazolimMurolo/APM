@@ -33,7 +33,7 @@ function showHome() {
   homeScreen.style.display = "block";
   parkingScreen.style.display = "none";
   historyScreen.style.display = "none";
-  pageTitle.innerText = "APM 1.0.5";
+  pageTitle.innerText = "APM 2.0.0";
   pageSubtitle.innerText = "Leitura Inteligente de Placas";
   backBtn.style.display = "none";
 }
