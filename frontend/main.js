@@ -182,16 +182,21 @@ historyScreen.innerHTML = `
 
 excluirTudoBtn.addEventListener("click", async () => {
   const confirmar = confirm("Tem certeza que deseja excluir TODO o histórico?");
-
   if (!confirmar) return;
 
-  await excluirTodosRegistros();
+  const sucesso = await excluirTodosRegistros();
+
+  if (!sucesso) {
+    alert("Erro ao excluir histórico. Veja o console.");
+    return;
+  }
 
   alert("Histórico apagado com sucesso!");
 
   const registrosAtualizados = await buscarTodosRegistros();
   renderTabela(registrosAtualizados);
 });
+
 
 
   function aplicarFiltro() {
@@ -223,38 +228,44 @@ excluirTudoBtn.addEventListener("click", async () => {
 
   renderTabela(registros);
 
-  function renderTabela(lista) {
-    if (lista.length === 0) {
-      tabelaContainer.innerHTML = "<p>Nenhum registro encontrado.</p>";
-      return;
-    }
+function renderTabela(lista) {
+  if (lista.length === 0) {
+    tabelaContainer.innerHTML = "<p style='text-align:center;color:#94a3b8;'>Nenhum registro encontrado.</p>";
+    return;
+  }
 
-    let html = `
-      <table border="1" width="100%">
-        <thead>
-          <tr>
-            <th>Placa</th>
-            <th>Entrada</th>
-            <th>Saída</th>
-          </tr>
-        </thead>
-        <tbody>
+  tabelaContainer.innerHTML = "";
+
+  lista.forEach(r => {
+
+    const card = document.createElement("div");
+    card.classList.add("history-card");
+
+    card.innerHTML = `
+      <div class="history-card-header">
+        <span class="history-plate">${r.placa}</span>
+      </div>
+
+      <div class="history-card-body">
+        <div class="history-info">
+          <span>Entrada</span>
+          <strong>${new Date(r.criado_em).toLocaleString("pt-BR")}</strong>
+        </div>
+
+        <div class="history-info">
+          <span>Saída</span>
+          <strong>
+            ${r.saida 
+              ? new Date(r.saida).toLocaleString("pt-BR") 
+              : "-"}
+          </strong>
+        </div>
+      </div>
     `;
 
-    lista.forEach(r => {
-      html += `
-        <tr>
-          <td>${r.placa}</td>
-          <td>${new Date(r.criado_em).toLocaleString()}</td>
-          <td>${r.saida ? new Date(r.saida).toLocaleString() : "-"}</td>
-        </tr>
-      `;
-    });
-
-    html += "</tbody></table>";
-
-    tabelaContainer.innerHTML = html;
-  }
+    tabelaContainer.appendChild(card);
+  });
+}
 }
 
 
