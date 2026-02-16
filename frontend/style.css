@@ -472,7 +472,7 @@ input[type="date"]::-webkit-datetime-edit {
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
   cursor: pointer;
-
+}
   .input-group {
   display: flex;
   flex-direction: column;
@@ -485,4 +485,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #94a3b8;
 }
 
-}
+
