@@ -159,9 +159,7 @@ historyScreen.innerHTML = `
 
     <div class="history-filters">
       <div class="input-group">
-        <label>Selecionar data</label>
-        
-        <input type="date" id="filtroData" class="history-input" required>
+      <input type="text" id="filtroData" class="history-input" placeholder="Selecionar data 📅">
 
       </div>
     </div>
@@ -183,6 +181,11 @@ historyScreen.innerHTML = `
 
   <div id="tabelaContainer"></div>
 `;
+flatpickr("#filtroData", {
+  dateFormat: "d/m/Y",
+  locale: "pt",
+  allowInput: false
+});
 
 
 

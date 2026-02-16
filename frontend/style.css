@@ -505,3 +505,47 @@ input[type="date"]:invalid {
 input[type="date"]:valid {
   color: white;
 }
+
+
+/* ===== FLATPICKR DARK MODERNO ===== */
+
+.flatpickr-calendar {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+}
+
+.flatpickr-months {
+  background: #1e293b;
+  border-radius: 16px 16px 0 0;
+}
+
+.flatpickr-current-month,
+.flatpickr-monthDropdown-months,
+.flatpickr-weekday {
+  color: #f1f5f9;
+}
+
+.flatpickr-day {
+  color: #e2e8f0;
+  border-radius: 8px;
+}
+
+.flatpickr-day:hover {
+  background: #334155;
+}
+
+.flatpickr-day.selected {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: white;
+}
+
+.flatpickr-day.today {
+  border: 1px solid #ef4444;
+}
+
+.flatpickr-weekdays {
+  background: #1e293b;
+}
