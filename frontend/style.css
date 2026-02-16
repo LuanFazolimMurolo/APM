@@ -486,3 +486,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 
+input[type="date"] {
+  position: relative;
+  color-scheme: dark; /* força modo escuro correto */
+}
+
+/* Deixa o ícone visível */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 1;
+  cursor: pointer;
+}
