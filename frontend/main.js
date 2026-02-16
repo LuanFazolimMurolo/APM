@@ -152,10 +152,18 @@ function renderTabelaHistorico(registros) {
 historyScreen.innerHTML = `
   <div class="history-toolbar">
 
-    <div class="history-filters">
-      <input type="date" id="filtroData" class="history-input">
-      <input type="text" id="filtroPlaca" placeholder="Buscar placa" class="history-input">
+  <div class="history-filters">
+    <div class="input-group">
+      <label>Selecionar data</label>
+      <input type="date" id="filtroData" class="history-input"> 
     </div>
+
+    <div class="input-group">
+      <label>Buscar placa</label>
+      <input type="text" id="filtroPlaca" class="history-input">
+    </div>
+  </div>
+
 
     <div class="history-actions">
       <button id="limparFiltro" class="history-btn secondary">
@@ -166,7 +174,7 @@ historyScreen.innerHTML = `
         🗑
       </button>
     </div>
-
+  
   </div>
 
   <div id="tabelaContainer"></div>
