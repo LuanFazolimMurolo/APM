@@ -46,7 +46,7 @@ function showHome() {
   homeScreen.style.display = "block";
   parkingScreen.style.display = "none";
   historyScreen.style.display = "none";
-  pageTitle.innerText = "APM 2.0.0";
+  pageTitle.innerText = "APM 2.0.1";
   pageSubtitle.innerText = "Leitura Inteligente de Placas";
   backBtn.style.display = "none";
 }
@@ -199,8 +199,17 @@ flatpickr("#filtroData", {
   altFormat: "d/m/Y",
   locale: "pt",
   allowInput: false,
-  altInputClass: "history-input" // 🔥 usa sua própria classe
+  disableMobile: true
 });
+
+// 🔥 Ajusta placeholder depois que o Flatpickr cria o input alternativo
+setTimeout(() => {
+  const altInput = document.querySelector(".flatpickr-alt-input");
+  if (altInput) {
+    altInput.placeholder = "Selecionar data 📅";
+  }
+}, 50);
+
 
   const tabelaContainer = document.getElementById("tabelaContainer");
   const filtroData = document.getElementById("filtroData");
