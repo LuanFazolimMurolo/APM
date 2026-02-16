@@ -206,6 +206,30 @@ window.renderRegistrosDoBanco = function(registros) {
     }
   });
 };
+async function acordarServidor() {
+  const statusEl = document.getElementById("serverStatus");
 
+  statusEl.textContent = "⏳ Aguardando servidor...";
+  statusEl.style.color = "#facc15";
 
+  try {
+    const response = await fetch("https://apm-4pa7.onrender.com/health", {
+      method: "GET",
+      cache: "no-store"
+    });
 
+    if (response.ok) {
+      statusEl.textContent = "✅ Servidor pronto";
+      statusEl.style.color = "#22c55e";
+    } else {
+      statusEl.textContent = "⚠️ Servidor respondeu, mas com erro";
+      statusEl.style.color = "#f97316";
+    }
+
+  } catch (err) {
+    statusEl.textContent = "❌ Não foi possível conectar";
+    statusEl.style.color = "#ef4444";
+  }
+}
+
+window.addEventListener("load", acordarServidor);

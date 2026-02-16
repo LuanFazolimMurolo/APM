@@ -35,3 +35,6 @@ async def read_plate(file: UploadFile = File(...)):
     else:
         return {"plate": None}
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
