@@ -497,3 +497,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 1;
   cursor: pointer;
 }
+
+input[type="date"]:invalid {
+  color: #94a3b8;
+}
+
+input[type="date"]:valid {
+  color: white;
+}
