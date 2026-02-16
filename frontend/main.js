@@ -30,6 +30,18 @@ const currentParkingBtn = document.getElementById("currentParkingBtn");
 const historyBtn = document.getElementById("historyBtn");
 
 /* ===== NAVEGAÇÃO ===== */
+function navegarPara(tela) {
+  const telaAtual = history.state?.tela;
+
+  if (telaAtual === tela) return; // evita duplicar
+
+  if (tela === "home") showHome();
+  if (tela === "parking") showParking();
+  if (tela === "history") showHistory();
+
+  history.pushState({ tela }, "", `#${tela}`);
+}
+
 function showHome() {
   homeScreen.style.display = "block";
   parkingScreen.style.display = "none";
@@ -315,9 +327,11 @@ startShiftBtn.addEventListener("click", async () => {
   atualizarEstadoUI();
 });
 
-currentParkingBtn.addEventListener("click", showParking);
-historyBtn.addEventListener("click", showHistory);
-backBtn.addEventListener("click", showHome);
+currentParkingBtn.addEventListener("click", () => navegarPara("parking"));
+historyBtn.addEventListener("click", () => navegarPara("history"));
+backBtn.addEventListener("click", () => {
+  history.back();
+});
 
 /* ===== REGISTROS ===== */
 async function carregarRegistros() {
@@ -326,6 +340,15 @@ async function carregarRegistros() {
   window.renderRegistrosDoBanco(registros);
 }
 
+window.addEventListener("popstate", async (event) => {
+  const tela = event.state?.tela || "home";
+
+  if (tela === "home") showHome();
+  if (tela === "parking") await showParking();
+  if (tela === "history") await showHistory();
+});
+
+history.replaceState({ tela: "home" }, "", "#home");
 
 /* ===== API GLOBAL ===== */
 window.sistema = {
