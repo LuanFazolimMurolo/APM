@@ -182,7 +182,9 @@ historyScreen.innerHTML = `
   <div id="tabelaContainer"></div>
 `;
 flatpickr("#filtroData", {
-  dateFormat: "d/m/Y",
+  dateFormat: "Y-m-d",       // valor real
+  altInput: true,
+  altFormat: "d/m/Y",        // o que aparece
   locale: "pt",
   allowInput: false
 });

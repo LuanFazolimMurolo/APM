@@ -456,24 +456,7 @@ header p {
   font-size: 14px;
 }
 
-/* Corrige aparência do input date no mobile */
-input[type="date"] {
-  appearance: none;
-  -webkit-appearance: none;
-  position: relative;
-}
-
-/* Corrige cor do texto da data */
-input[type="date"]::-webkit-datetime-edit {
-  color: white;
-}
-
-/* Corrige o ícone do calendário no modo escuro */
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  cursor: pointer;
-}
-  .input-group {
+.input-group {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -485,26 +468,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #94a3b8;
 }
 
-
-input[type="date"] {
-  position: relative;
-  color-scheme: dark; /* força modo escuro correto */
-}
-
-/* Deixa o ícone visível */
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 1;
-  cursor: pointer;
-}
-
-input[type="date"]:invalid {
-  color: #94a3b8;
-}
-
-input[type="date"]:valid {
-  color: white;
-}
 
 
 /* ===== FLATPICKR DARK MODERNO ===== */
