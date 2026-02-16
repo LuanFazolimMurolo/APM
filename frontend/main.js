@@ -81,13 +81,13 @@ async function iniciarSistema() {
 
 function atualizarEstadoUI() {
   if (turnoAtual) {
-    startShiftBtn.textContent = "Encerrar Turno";
+    startShiftBtn.textContent = "Encerrar Turno❌";
     startShiftBtn.className = "btn-danger";
     currentParkingBtn.style.display = "block";
     console.log("Turno atual:", turnoAtual);
 
   } else {
-    startShiftBtn.textContent = "Iniciar Turno";
+    startShiftBtn.textContent = "Iniciar Turno▶️";
     startShiftBtn.className = "btn-success";
     currentParkingBtn.style.display = "none";
     console.log("Encerrando ID:", turnoId);
