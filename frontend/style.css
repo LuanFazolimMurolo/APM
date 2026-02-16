@@ -512,3 +512,12 @@ header p {
 .flatpickr-weekdays {
   background: #1e293b;
 }
+/* Input gerado pelo Flatpickr */
+.flatpickr-input {
+  background: #1e293b !important;
+  color: white !important;
+  border: 1px solid #334155 !important;
+  border-radius: 10px !important;
+  padding: 10px !important;
+  font-size: 16px !important;
+}

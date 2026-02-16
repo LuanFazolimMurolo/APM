@@ -182,14 +182,13 @@ historyScreen.innerHTML = `
   <div id="tabelaContainer"></div>
 `;
 flatpickr("#filtroData", {
-  dateFormat: "Y-m-d",       // valor real
+  dateFormat: "Y-m-d",
   altInput: true,
-  altFormat: "d/m/Y",        // o que aparece
+  altFormat: "d/m/Y",
   locale: "pt",
-  allowInput: false
+  allowInput: false,
+  altInputClass: "history-input" // 🔥 usa sua própria classe
 });
-
-
 
   const tabelaContainer = document.getElementById("tabelaContainer");
   const filtroData = document.getElementById("filtroData");
